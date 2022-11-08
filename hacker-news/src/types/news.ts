@@ -1,3 +1,5 @@
+import { type } from "os"
+
 export type NewType = {
     "by" : string,
     "descendants" : number,
@@ -8,4 +10,14 @@ export type NewType = {
     "title" : string,
     "type" : string,
     "url" : string,
+}
+
+export type CommentType = {
+    "by" :  string,
+    "id" : number,
+    "kids" : number[],
+    "parent" : number,
+    "text" : string,
+    "time" : number,
+    "type" : string,
 }

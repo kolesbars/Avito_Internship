@@ -1,9 +1,7 @@
-import React from 'react';
 import { AxiosInstance } from 'axios';
-import { useEffect, useState } from 'react';
-import { APIRoute } from '../../const';
-import NewsList from '../news-list/news-list';
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Main from '../main/main';
+import NewPage from '../new-page/new-page';
 import './App.css';
 
 type AppProps = {
@@ -11,26 +9,24 @@ type AppProps = {
 }
 
 function App({api}: AppProps) {
-
-  const [arr, setArr] = useState([]);
-
-  const loadNews = (): Promise<void> => {
-    return api.get(APIRoute.News).then((resp) => {
-    setArr(resp.data.slice(0, 20))
-  })}
-
-  useEffect(() => {
-    loadNews()
-  }, [])
-
-  useEffect(() => {
-    setInterval(() => {
-      loadNews()
-    }, 100000)
-  }, [arr])
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     dispatch(loadNewsID())
+  //   }, 100000)
+  // }, [arr])
 
   return (
-      <Main arr={arr} api={api} func={loadNews}/>
+    <BrowserRouter>
+      <Switch>
+        <Route path={'/'} exact>
+          <Main api={api}/>
+        </Route>
+        <Route path={'/new'}>
+          <NewPage api={api}/>
+        </Route>
+      </Switch>
+    </BrowserRouter>
+      
   );
 }
 

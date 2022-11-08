@@ -1,11 +1,13 @@
+import { useAppDispatch } from '../../hooks/hooks'
+import { loadNewsID } from '../../store/api-action'
 import {Header, Button} from 'semantic-ui-react'
 
-type HeaderContainerProps = {
-    func: () => Promise<void>
-}
-function HeaderContainer ({func}: HeaderContainerProps) {
+
+function HeaderContainer () {
+    const dispatch = useAppDispatch();
+
     const handleClickButton = () => {
-        func()
+        dispatch(loadNewsID())
     }
 
 return (

@@ -1,17 +1,24 @@
 import { AxiosInstance } from 'axios';
+import { useEffect} from 'react';
+import { loadNewsID } from '../../store/api-action';
+import { useAppDispatch } from '../../hooks/hooks';
 import Header from '../header/header'
 import NewsList from '../news-list/news-list';
 
 type MainProps = {
-    arr: number[],
     api: AxiosInstance,
-    func: () => Promise<void>
 }
-function Main({arr, api, func}: MainProps) {
+function Main({api}: MainProps) {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(loadNewsID())
+      }, [])
+
     return (
         <>
-        <Header func={func}/>
-        <NewsList arr={arr} api={api}/>
+        <Header/>
+        <NewsList api={api}/>
         </>
 
     )
