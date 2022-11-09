@@ -1,8 +1,8 @@
 import { AxiosInstance } from 'axios';
-import { APIRoute } from '../../const';
-import { useState, useEffect } from 'react';
-import { CommentType } from '../../types/news';
-import {List} from 'semantic-ui-react'
+import {List, Button, Header, Container, Loader} from 'semantic-ui-react'
+import { useState } from 'react';
+//import { debounce } from 'ts-debounce';
+import Comment from '../comment/comment'
 
 type CommentsProps = {
     kids: number[],
@@ -11,27 +11,30 @@ type CommentsProps = {
 
 function Comments({kids, api}: CommentsProps) {
 
-    const [comments, setComments] = useState<CommentType[]>();
+    const [isUpdateButtonClick, setIsUpdateButtonClick] = useState(false)
 
-    const loadComments = (id: number) => {
-        if(comments) {
-            api.get(`/${APIRoute.Item}/${id}.json`).then((resp) => {
-                console.log(resp.data)
-            setComments([...comments, resp.data])
-        })}
-}
-        
-    useEffect(() => {
-        kids.forEach((kid) => {
-            loadComments(kid)
-        })
-        console.log(comments)
-    }, [kids])
+    const handleUpdateButtonClock = () => {
+        setIsUpdateButtonClick(true)
+    }
 
 return (
-        <List>
-            
+    <Container>
+        <Header as='h2'>Comments:</Header>
+        <Button onClick={handleUpdateButtonClock}>update comments</Button>
+        <List bulleted>
+            {kids ? kids.map((id) => {
+                return <Comment
+                            id={id}
+                            key={id}
+                            api={api}
+                            defaultCommentLoadStatus={false}
+                            isUpdateButtonClick={isUpdateButtonClick}
+                            onSetIsUpdateButtonClick={setIsUpdateButtonClick}
+                        />
+            }) : 'комментов нет'}
         </List>
+    </Container>
+
     )
 }
 

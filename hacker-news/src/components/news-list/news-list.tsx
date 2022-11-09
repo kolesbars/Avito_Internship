@@ -1,4 +1,4 @@
-import {List, Segment} from 'semantic-ui-react'
+import {List, Segment, Container} from 'semantic-ui-react'
 import { AxiosInstance } from 'axios';
 import New from '../new/new';
 import { useAppSelector } from '../../hooks/hooks';
@@ -16,16 +16,18 @@ function NewsList({api}: NewsListProps) {
     const loadedStatus = useAppSelector(getLoadedStatus)
 
     return (
-        <Segment inverted>
-            <List ordered celled divided inverted animated>
+        <Container>
+            <Segment inverted>
+            <List bulleted celled divided inverted animated>
                 {newsIdArr.map((el) => {
                     if (loadedStatus) {
                         return <New newID={el} api={api} key={el}/>
                     }
-                    return <NewPlaceholder/>
+                    return <NewPlaceholder key={el}/>
                 })}
             </List>
         </Segment>
+        </Container>
         )
 }
 

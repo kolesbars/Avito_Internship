@@ -12,7 +12,7 @@ const initialState: NewsData = {
 const newsData = createReducer(initialState, (builder) => {
     builder
     .addCase(updateNewsIDArr, (state, action) => {
-        state.newsIDArr = action.payload.slice(0, 100).sort((a, b) => a - b)
+        state.newsIDArr = action.payload.sort((a, b) => a - b).slice(0, 100)
     })
     .addCase(setLoadedStatus, (state, action) => {
         state.isLoaded = action.payload

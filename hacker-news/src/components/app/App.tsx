@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { AppRoute } from '../../const';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Main from '../main/main';
 import NewPage from '../new-page/new-page';
@@ -9,19 +10,14 @@ type AppProps = {
 }
 
 function App({api}: AppProps) {
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     dispatch(loadNewsID())
-  //   }, 100000)
-  // }, [arr])
-
+  
   return (
     <BrowserRouter>
       <Switch>
-        <Route path={'/'} exact>
+        <Route path={AppRoute.Main} exact>
           <Main api={api}/>
         </Route>
-        <Route path={'/new'}>
+        <Route path={`${AppRoute.New}/:id`}>
           <NewPage api={api}/>
         </Route>
       </Switch>

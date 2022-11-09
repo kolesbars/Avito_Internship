@@ -7,6 +7,11 @@ export enum APIRoute {
   Item = '/item'
 }
 
+export enum AppRoute {
+  Main = '/',
+  New = '/new'
+}
+
 export const emptyNew = {
   "by" : '',
   "descendants" : 0,

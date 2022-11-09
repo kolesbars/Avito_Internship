@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../../hooks/hooks'
 import { loadNewsID } from '../../store/api-action'
-import {Header, Button} from 'semantic-ui-react'
+import {Header, Button, Container} from 'semantic-ui-react'
 
 
 function HeaderContainer () {
@@ -11,10 +11,10 @@ function HeaderContainer () {
     }
 
 return (
-    <>
+    <Container>
         <Header as="h1">Hacker news</Header>
-        <Button onClick={handleClickButton}>Обновить</Button>
-    </>
+        <Button onClick={handleClickButton} floated='right'>Обновить</Button>
+    </Container>
 )
 }
 

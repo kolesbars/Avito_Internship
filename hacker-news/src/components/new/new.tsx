@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/hooks';
 import { updateCurrentNewData } from '../../store/action';
-import { APIRoute } from '../../const';
+import { APIRoute, AppRoute } from '../../const';
 import { NewType } from '../../types/news';
 import { useHistory } from 'react-router-dom';
 import NewPlaceholder from '../new-placeholder/new-placeholder';
@@ -23,7 +23,7 @@ function New ({newID, api}: NewProps) {
     const handleNewClick = () => {
         if (newData) {
             dispatch(updateCurrentNewData(newData))
-            history.push('/new')
+            history.push(`${AppRoute.New}/${newID}`)
         }
     }
 
@@ -43,7 +43,9 @@ function New ({newID, api}: NewProps) {
             <List.Content floated='left'>
                 <List.Content floated='left'>
                     <List.Header floated='left'>{newData?.title}</List.Header>
-                    <List.Description floated='left'>{`by ${newData?.by} rating: ${newData?.score}, ${date}`}</List.Description>
+                    <List.Description floated='left'>
+                        {`by ${newData?.by}, rating: ${newData?.score}, ${date}`}
+                    </List.Description>
                 </List.Content>
             </List.Content> :
             <NewPlaceholder/>

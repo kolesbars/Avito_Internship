@@ -3,7 +3,7 @@ import axios, {AxiosInstance, AxiosResponse, AxiosError} from 'axios';
 
 const BACKEND_URL = 'https://hacker-news.firebaseio.com/v0';
 
-const REQUEST_TIMEOUT = 10000;
+const REQUEST_TIMEOUT = 20000;
 
 
 export const createAPI = (): AxiosInstance => {
