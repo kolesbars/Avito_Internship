@@ -1,4 +1,4 @@
-import {List, Segment, Container} from 'semantic-ui-react'
+import {List, Segment, Container, Dimmer, Loader} from 'semantic-ui-react'
 import { useAppSelector } from '../../hooks/hooks';
 import { getNewsIDArr } from '../../store/news-data/selectors';
 import { getLoadedStatus } from '../../store/news-data/selectors';
@@ -13,12 +13,14 @@ function NewsList() {
     return (
         <Container>
             <Segment inverted>
-            <List bulleted celled divided inverted animated>
+            <List bulleted celled divided inverted selection>
                 {newsIdArr.map((el) => {
                     if (loadedStatus) {
                         return <New newID={el} key={el}/>
                     }
-                    return <NewPlaceholder key={el}/>
+                    return  <Dimmer active inverted key={el}>
+                                <Loader size='large'>Loading</Loader>
+                            </Dimmer>
                 })}
             </List>
         </Segment>

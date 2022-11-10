@@ -25,7 +25,7 @@ function Comment({id, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpda
         api.get(`${APIRoute.Item}/${id}.json`).then((resp) => {
             setData(resp.data)
             //применил данную библиотеку для страховки от вредоносного кода в тексте комментариев
-            setSanitizedComment(DOMPurify.sanitize(resp.data.text))
+            setSanitizedComment(DOMPurify.sanitize(resp.data?.text))
             setIsLoaded(true)
 
         })
@@ -51,21 +51,22 @@ function Comment({id, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpda
         <>
             {isLoaded ?
             <List.Item onClick={handleClick}>
-            <List.Header as='h3'>{data?.by}</List.Header>
-            <List.Description as='p' dangerouslySetInnerHTML={{__html: `${sanitizedComment}`}}></List.Description>
-            {isCommentClick && <List.List>
-                {data?.kids && data?.kids.map((id) => {
-                    return <Comment
-                                id={id}
-                                key={id}
-                                defaultCommentLoadStatus={true}
-                                isUpdateButtonClick={isUpdateButtonClick}
-                                onSetIsUpdateButtonClick={onSetIsUpdateButtonClick}
-                            />
-                })}
-            </List.List>}
-        </List.Item> :
-        <NewPlaceholder/>
+                <List.Header as='h3'>{data?.by}</List.Header>
+                <List.Description as='p' dangerouslySetInnerHTML={{__html: `${sanitizedComment}`}}></List.Description>
+                {isCommentClick && data?.kids &&
+                <List.List>
+                    {data?.kids && data?.kids.map((id) => {
+                        return <Comment
+                                    id={id}
+                                    key={id}
+                                    defaultCommentLoadStatus={true}
+                                    isUpdateButtonClick={isUpdateButtonClick}
+                                    onSetIsUpdateButtonClick={onSetIsUpdateButtonClick}
+                                />
+                    })}
+                </List.List>}
+            </List.Item> :
+            <NewPlaceholder/>
             }
         </>
         
@@ -73,3 +74,4 @@ function Comment({id, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpda
 }
 
 export default Comment;
+

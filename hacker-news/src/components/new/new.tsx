@@ -3,7 +3,7 @@ import { api } from '../../services/api';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/hooks';
 import { updateCurrentNewData } from '../../store/action';
-import { APIRoute, AppRoute } from '../../const';
+import { APIRoute, AppRoute, DATE_MULTIPLIER } from '../../const';
 import { NewType } from '../../types/news';
 import { useHistory } from 'react-router-dom';
 import NewPlaceholder from '../item-placeholder/item-placeholder';
@@ -31,7 +31,7 @@ function New ({newID}: NewProps) {
         api.get(`${APIRoute.Item}/${newID}.json`).then((resp) => {
             setNewData(resp.data)
             if (resp.data.time) {
-                setDate(new Date(resp.data.time).toLocaleDateString())
+                setDate(new Date(resp.data.time * DATE_MULTIPLIER).toLocaleDateString())
             }
         })
     }, [newID])
@@ -42,9 +42,10 @@ function New ({newID}: NewProps) {
             { newData ? 
             <List.Content floated='left'>
                 <List.Content floated='left'>
-                    <List.Header floated='left'>{newData?.title}</List.Header>
+                    <List.Header as='h4' floated='left'>{newData?.title}</List.Header>
+                    <List.Header as='h5' floated='left'>{`rating: ${newData?.score}`}</List.Header>
                     <List.Description floated='left'>
-                        {`by ${newData?.by}, rating: ${newData?.score}, ${date}`}
+                        {`by ${newData?.by}, ${date}`}
                     </List.Description>
                 </List.Content>
             </List.Content> :
