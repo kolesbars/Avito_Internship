@@ -28,7 +28,7 @@ function NewPage() {
     return (
         <Container>
             <Header as='h1' target='_blank'>{title}</Header>
-            <Button as='a' href={url}>{url}</Button>
+            {url && <Button as='a' href={url}>{url}</Button>}
             <Button as={Link} to={AppRoute.Main}>go back</Button>
             <Container as='p'>{`author: ${by}, date: ${new Date(time).toLocaleDateString()}, comments ${descendants}`}</Container>
             <Container>

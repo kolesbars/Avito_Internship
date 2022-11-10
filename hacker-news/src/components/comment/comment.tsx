@@ -1,8 +1,9 @@
 import { CommentType } from '../../types/news'
-import { APIRoute } from '../../const';
+import { APIRoute} from '../../const';
 import { useState, useEffect} from 'react';
 import {List} from 'semantic-ui-react'
 import { api } from '../../services/api';
+import DOMPurify from 'dompurify'
 import NewPlaceholder from '../item-placeholder/item-placeholder';
 
 type CommentProps = {
@@ -15,6 +16,7 @@ type CommentProps = {
 function Comment({id, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpdateButtonClick}: CommentProps) {
 
     const [data, setData] = useState<CommentType>()
+    const [sanitizedComment, setSanitizedComment] = useState<string>()
     const [isCommentClick, setIsCommentClick] = useState(defaultCommentLoadStatus)
     const [isLoaded, setIsLoaded] = useState(false)
 
@@ -22,7 +24,10 @@ function Comment({id, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpda
         setIsLoaded(false)
         api.get(`${APIRoute.Item}/${id}.json`).then((resp) => {
             setData(resp.data)
+            //применил данную библиотеку для страховки от вредоносного кода в тексте комментариев
+            setSanitizedComment(DOMPurify.sanitize(resp.data.text))
             setIsLoaded(true)
+
         })
     }
 
@@ -47,7 +52,7 @@ function Comment({id, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpda
             {isLoaded ?
             <List.Item onClick={handleClick}>
             <List.Header as='h3'>{data?.by}</List.Header>
-            <List.Description as='p'>{data?.text}</List.Description>
+            <List.Description as='p' dangerouslySetInnerHTML={{__html: `${sanitizedComment}`}}></List.Description>
             {isCommentClick && <List.List>
                 {data?.kids && data?.kids.map((id) => {
                     return <Comment
