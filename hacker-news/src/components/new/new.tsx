@@ -1,22 +1,22 @@
 import {List} from 'semantic-ui-react'
-import { AxiosInstance } from 'axios';
+import { api } from '../../services/api';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/hooks';
 import { updateCurrentNewData } from '../../store/action';
 import { APIRoute, AppRoute } from '../../const';
 import { NewType } from '../../types/news';
 import { useHistory } from 'react-router-dom';
-import NewPlaceholder from '../new-placeholder/new-placeholder';
+import NewPlaceholder from '../item-placeholder/item-placeholder';
 
 type NewProps = {
     newID: number,
-    api: AxiosInstance,
 }
 
-function New ({newID, api}: NewProps) {
+function New ({newID}: NewProps) {
 
     const [newData, setNewData] = useState<NewType>()
     const [date, setDate] = useState<string>()
+    
     const dispatch = useAppDispatch();
     const history = useHistory();
 

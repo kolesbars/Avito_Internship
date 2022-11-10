@@ -1,6 +1,6 @@
 import {Placeholder} from 'semantic-ui-react'
 
-function NewPlaceholder() {
+function ItemPlaceholder() {
     return (
         <Placeholder>
             <Placeholder.Header/>
@@ -9,4 +9,4 @@ function NewPlaceholder() {
     )
 }
 
-export default NewPlaceholder;
+export default ItemPlaceholder;

@@ -1,15 +1,17 @@
-import { AxiosInstance } from 'axios';
 import { useEffect} from 'react';
 import { loadNewsID } from '../../store/api-action';
 import { useAppDispatch} from '../../hooks/hooks';
-import Header from '../header/header'
+import { Button, Container, Header } from 'semantic-ui-react'
+import { INTERVAL_DELAY } from '../../const';
 import NewsList from '../news-list/news-list';
 
-type MainProps = {
-    api: AxiosInstance,
-}
-function Main({api}: MainProps) {
+function Main() {
+
     const dispatch = useAppDispatch();
+
+    const handleClickButton = () => {
+        dispatch(loadNewsID())
+    }
 
     useEffect(() => {
         dispatch(loadNewsID())
@@ -19,15 +21,16 @@ function Main({api}: MainProps) {
     useEffect(() => {
         const interval = setInterval(() => {
           dispatch(loadNewsID())
-        }, 60000);
+        }, INTERVAL_DELAY);
         return () => clearInterval(interval);
       }, []);
 
     return (
-        <>
-        <Header/>
-        <NewsList api={api}/>
-        </>
+        <Container>
+          <Header as="h1">Hacker news</Header>
+          <Button onClick={handleClickButton}>Обновить</Button>
+          <NewsList/>
+        </Container>
 
     )
 }

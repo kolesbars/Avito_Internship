@@ -1,10 +1,5 @@
-import { HttpCode } from '../const';
+import { HttpCode, REQUEST_TIMEOUT, BACKEND_URL } from '../const';
 import axios, {AxiosInstance, AxiosResponse, AxiosError} from 'axios';
-
-const BACKEND_URL = 'https://hacker-news.firebaseio.com/v0';
-
-const REQUEST_TIMEOUT = 20000;
-
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
@@ -28,3 +23,5 @@ export const createAPI = (): AxiosInstance => {
 
   return api;
 };
+
+export const api = createAPI();

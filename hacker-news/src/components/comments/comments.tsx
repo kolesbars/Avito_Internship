@@ -1,15 +1,12 @@
-import { AxiosInstance } from 'axios';
-import {List, Button, Header, Container, Loader} from 'semantic-ui-react'
+import {List, Button, Header, Container} from 'semantic-ui-react'
 import { useState } from 'react';
-//import { debounce } from 'ts-debounce';
 import Comment from '../comment/comment'
 
 type CommentsProps = {
     kids: number[],
-    api: AxiosInstance
 }
 
-function Comments({kids, api}: CommentsProps) {
+function Comments({kids}: CommentsProps) {
 
     const [isUpdateButtonClick, setIsUpdateButtonClick] = useState(false)
 
@@ -26,7 +23,6 @@ return (
                 return <Comment
                             id={id}
                             key={id}
-                            api={api}
                             defaultCommentLoadStatus={false}
                             isUpdateButtonClick={isUpdateButtonClick}
                             onSetIsUpdateButtonClick={setIsUpdateButtonClick}

@@ -23,3 +23,12 @@ export const emptyNew = {
   "type" : '',
   "url" : '',
 }
+
+export const BACKEND_URL = 'https://hacker-news.firebaseio.com/v0';
+
+export const REQUEST_TIMEOUT = 20000;
+
+export const INTERVAL_DELAY = 60000;
+
+export const INITIAL_VALUE_OF_NEWS_ARR = 0;
+export const AMOUNT_OF_NEWS = 100;

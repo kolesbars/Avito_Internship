@@ -1,13 +1,14 @@
-// import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-// import { newsData } from './news-data/news-data';
+import { configureStore} from '@reduxjs/toolkit';
+import { api } from '../services/api';
+import { newsData } from './news-data/news-data';
 
-
-// // export type AppDispatch = typeof store.dispatch;
-// // export type RootState = ReturnType<typeof store.getState>;
-// export type AppThunk<ReturnType = void> = ThunkAction<
-//   ReturnType,
-//   RootState,
-//   unknown,
-//   Action<string>
-// >;
- export {}
+export const store = configureStore({
+    reducer: newsData,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: api,
+        },
+      }),
+  },
+  );

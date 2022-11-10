@@ -1,8 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { Action } from 'redux';
 import {ThunkAction} from '@reduxjs/toolkit';
-import { newsData } from '../store/news-data/news-data';
-// import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { RootState } from './state';
 
 export enum ActionType {
     UpdateNewsIDArr = 'news/updateNewsIDArr',
@@ -10,6 +9,4 @@ export enum ActionType {
     UpdateCurrentNewData = 'news/updateCurrentNewData',
 }
 
-export type State = ReturnType<typeof newsData>
-
-export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;
+export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, RootState, AxiosInstance, Action>;

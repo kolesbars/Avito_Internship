@@ -1,19 +1,18 @@
 import { CommentType } from '../../types/news'
 import { APIRoute } from '../../const';
 import { useState, useEffect} from 'react';
-import { AxiosInstance } from 'axios'
-import NewPlaceholder from '../new-placeholder/new-placeholder';
 import {List} from 'semantic-ui-react'
+import { api } from '../../services/api';
+import NewPlaceholder from '../item-placeholder/item-placeholder';
 
 type CommentProps = {
     id: number,
-    api: AxiosInstance,
     defaultCommentLoadStatus: boolean,
     isUpdateButtonClick: boolean,
     onSetIsUpdateButtonClick: (value: boolean) => void
 }
 
-function Comment({id, api, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpdateButtonClick}: CommentProps) {
+function Comment({id, defaultCommentLoadStatus, isUpdateButtonClick, onSetIsUpdateButtonClick}: CommentProps) {
 
     const [data, setData] = useState<CommentType>()
     const [isCommentClick, setIsCommentClick] = useState(defaultCommentLoadStatus)
@@ -53,8 +52,7 @@ function Comment({id, api, defaultCommentLoadStatus, isUpdateButtonClick, onSetI
                 {data?.kids && data?.kids.map((id) => {
                     return <Comment
                                 id={id}
-                                key={id} 
-                                api={api}
+                                key={id}
                                 defaultCommentLoadStatus={true}
                                 isUpdateButtonClick={isUpdateButtonClick}
                                 onSetIsUpdateButtonClick={onSetIsUpdateButtonClick}
