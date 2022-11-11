@@ -1,25 +1,11 @@
-import { HttpCode, REQUEST_TIMEOUT, BACKEND_URL } from '../const';
-import axios, {AxiosInstance, AxiosResponse, AxiosError} from 'axios';
+import { REQUEST_TIMEOUT, BACKEND_URL } from '../const';
+import axios, { AxiosInstance } from 'axios';
 
 export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
   });
-
-  api.interceptors.response.use(
-    (response: AxiosResponse) => response,
-
-    (error: AxiosError) => {
-      const {response} = error;
-
-      if (response && response.status >= HttpCode.ServerError) {
-        console.log(response);
-      }
-
-      return Promise.reject(error);
-    },
-  );
 
   return api;
 };

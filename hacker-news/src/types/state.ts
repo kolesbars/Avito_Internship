@@ -1,11 +1,9 @@
-import { store } from "../store/store";
-import { NewType } from "./news"
+import { store } from '../store/store';
 
 export type NewsData = {
-    newsIDArr: number[],
-    isLoaded: boolean,
-    currentNewData: NewType,
-}
+  newsIDArr: number[];
+  isLoaded: boolean;
+};
 
 export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+export type State = ReturnType<typeof store.getState>;

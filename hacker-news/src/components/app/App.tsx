@@ -1,26 +1,32 @@
 import { AppRoute } from '../../const';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Route, Switch, BrowserRouter } from 'react-router-dom';
+import { AxiosInstance } from 'axios';
 import Main from '../main/main';
-import NewPage from '../new-page/new-page';
+import NewsItemPage from '../news-item-page/news-item-page';
 import NotFoundPage from '../not-found-page/not-found-page';
 
-function App() {
-  
+type AppProps = {
+  api: AxiosInstance;
+};
+
+function App({ api }: AppProps) {
   return (
     <BrowserRouter>
       <Switch>
         <Route path={AppRoute.Main} exact>
-          <Main/>
+          <Main api={api} />
         </Route>
-        <Route path={`${AppRoute.New}/:id`} exact>
-          <NewPage/>
+        <Route path={`${AppRoute.News}/:id`} exact>
+          <NewsItemPage api={api}/>
         </Route>
-        <Route path='*'>
-          <NotFoundPage/>
+        <Route path={AppRoute.NotFoundScreen}>
+          <NotFoundPage />
+        </Route>
+        <Route>
+          <NotFoundPage />
         </Route>
       </Switch>
     </BrowserRouter>
-      
   );
 }
 

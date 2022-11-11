@@ -1,28 +1,30 @@
-export enum HttpCode {
-    ServerError = 500,
-  }
-
 export enum APIRoute {
   News = '/newstories.json',
-  Item = '/item'
+  Item = '/item',
 }
 
 export enum AppRoute {
   Main = '/',
-  New = '/new'
+  News = '/news',
+  NotFoundScreen = '/notfound'
+}
+
+export enum DefaultScrollPosition {
+  Top = 0,
+  Left = 0,
 }
 
 export const emptyNew = {
-  "by" : '',
-  "descendants" : 0,
-  "id" : 0,
-  "kids" : [0],
-  "score" : 0,
-  "time" : 0,
-  "title" : '',
-  "type" : '',
-  "url" : '',
-}
+  by: '',
+  descendants: 0,
+  id: 0,
+  kids: [0],
+  score: 0,
+  time: 0,
+  title: '',
+  type: '',
+  url: '',
+};
 
 export const BACKEND_URL = 'https://hacker-news.firebaseio.com/v0';
 

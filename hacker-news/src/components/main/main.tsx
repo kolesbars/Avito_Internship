@@ -1,66 +1,82 @@
 import { useEffect} from 'react';
+import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
+import { getLoadedStatus} from '../../store/news-data/selectors';
 import { loadNewsID } from '../../store/api-action';
-import { useAppDispatch} from '../../hooks/hooks';
-import { Button, Header, Sticky, Icon, Grid} from 'semantic-ui-react'
-import { INTERVAL_DELAY } from '../../const';
+import { Button, Icon, Grid, Loader, Dimmer, Segment, Advertisement} from 'semantic-ui-react';
+import { INTERVAL_DELAY, DefaultScrollPosition } from '../../const';
+import { AxiosInstance } from 'axios';
 import NewsList from '../news-list/news-list';
+import PageHeader from '../page-header/page-header';
 
-function Main() {
+type MainProps = {
+  api: AxiosInstance;
+};
 
-    const dispatch = useAppDispatch();
+function Main({ api }: MainProps) {
+  const dispatch = useAppDispatch();
 
-    const handleClickButton = () => {
-        dispatch(loadNewsID())
-    }
+  const loadedStatus = useAppSelector(getLoadedStatus)
 
-    const handleToUpClick = () => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',
-      });
-    }
+  const handleClickButton = () => {
+    dispatch(loadNewsID());
+  };
 
-    useEffect(() => {
-        dispatch(loadNewsID())
-      }, [])
+  const handleToUpClick = () => {
+    window.scrollTo({
+      top: DefaultScrollPosition.Top,
+      left: DefaultScrollPosition.Left,
+      behavior: 'smooth',
+    });
+  };
 
+  useEffect(() => {
+    dispatch(loadNewsID());
+  }, []);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-          dispatch(loadNewsID())
-        }, INTERVAL_DELAY);
-        return () => clearInterval(interval);
-      }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(loadNewsID());
+    }, INTERVAL_DELAY);
+    return () => clearInterval(interval);
+  }, []);
 
-    return (
-        <>
-          <Grid columns={3}>
-            <Grid.Row centered>
-              <Header as="h1" textContent='center'>Hacker news</Header>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column width='3' textAlign='right'>
-                <Sticky>
-                  <Button onClick={handleClickButton} size='huge' color='black'>Обновить</Button>
-                </Sticky>
-              </Grid.Column>
-              <Grid.Column width='10'>
-                <NewsList/>
-              </Grid.Column>
-              <Grid.Column width='3' textAlign='left'>
-                <Sticky>
-                  <Button size='huge' color='black' onClick={handleToUpClick}>
-                    <Icon name='angle up'></Icon>
-                    Наверх
-                  </Button>
-                </Sticky>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </>
-
-    )
+  return (
+    <Segment inverted color='black'>
+      <Grid columns={4} inverted>
+        <Grid.Row>
+          <Grid.Column width={3}/>
+          <Grid.Column width={5} textAlign='left'>
+            <PageHeader/>
+          </Grid.Column>
+          <Grid.Column width={5} textAlign='right'>
+          <Button onClick={handleClickButton} size="huge" color="orange" inverted floated='right'>
+            <Icon name="redo alternate"></Icon>
+              Обновить
+          </Button>
+          </Grid.Column>
+          <Grid.Column width={3}/>
+        </Grid.Row> 
+        <Grid.Row>
+          <Grid.Column width="3" textAlign="right">
+          </Grid.Column>
+          <Grid.Column width="10" stretched>
+            { loadedStatus ?
+            <NewsList api={api} /> :
+            <Dimmer active inverted>
+              <Loader size="massive">Loading</Loader>
+            </Dimmer>}
+          </Grid.Column>
+          <Grid.Column width="3" textAlign="left" verticalAlign='bottom'>
+            {loadedStatus && <Button size="huge" color="black" onClick={handleToUpClick} inverted>
+              <Icon name="arrow alternate circle up"></Icon>
+              Наверх
+            </Button>}
+          </Grid.Column>
+        </Grid.Row>
+        <Advertisement unit='half page'/>
+      </Grid>
+    </Segment>
+  );
 }
 
 export default Main;
