@@ -3,23 +3,27 @@ import { useEffect, useState } from 'react';
 import { APIRoute, AppRoute, DATE_MULTIPLIER } from '../../const';
 import { NewsItemType } from '../../types/news';
 import { useHistory } from 'react-router-dom';
-import { AxiosInstance } from 'axios';
 import { api } from '../../services/api';
+import { updateNewsIDArr } from '../../store/action';
 import NewPlaceholder from '../item-placeholder/item-placeholder';
+import { useDispatch } from 'react-redux';
 
 type NewsItemProps = {
   newsItemID: number;
 };
 
-function NewsItem({ newsItemID}: NewsItemProps) {
+function NewsItem({ newsItemID }: NewsItemProps) {
   const [newsItemData, setNewsItemData] = useState<NewsItemType>();
   const [date, setDate] = useState<string>();
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleNewsItemClick = () => {
     if (newsItemData) {
       history.push(`${AppRoute.News}/${newsItemID}`);
+      dispatch(updateNewsIDArr([]))
+
     }
   };
 
@@ -35,7 +39,7 @@ function NewsItem({ newsItemID}: NewsItemProps) {
   }, []);
 
   return (
-    <List.Item onClick={handleNewsItemClick} data-testid='news-item'>
+    <List.Item onClick={handleNewsItemClick} data-testid="news-item">
       {newsItemData ? (
         <List.Content floated="left">
           <List.Header as="h4" floated="left">

@@ -4,11 +4,11 @@ import { Container, Header, Button } from 'semantic-ui-react';
 
 function NotFoundPage() {
   return (
-    <Container textAlign='center'>
+    <Container textAlign="center">
       <Header as="h1">Oops!</Header>
       <Header as="h2">404 - the page can not be found</Header>
       <Button as={Link} to={AppRoute.Main}>
-      Go to Homepage
+        Go to Homepage
       </Button>
     </Container>
   );

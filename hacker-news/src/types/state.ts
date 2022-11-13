@@ -1,3 +1,4 @@
+import { newsData } from '../store/news-data/news-data';
 import { store } from '../store/store';
 
 export type NewsData = {

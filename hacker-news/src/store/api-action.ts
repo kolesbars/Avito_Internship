@@ -9,8 +9,8 @@ export const loadNewsID =
     await api
       .get<number[]>(APIRoute.News)
       .then((response) => {
-        dispatch(setLoadedStatus(true));
         dispatch(updateNewsIDArr(response.data));
+        dispatch(setLoadedStatus(true));
       })
       .catch((err) => {
         console.error(err);

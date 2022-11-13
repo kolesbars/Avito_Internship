@@ -1,4 +1,4 @@
-import Main from './main';
+import CommentItem from './comment-item';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
@@ -19,19 +19,27 @@ const mockStore = configureMockStore<
 
 const store = mockStore({
   isLoaded: false,
-  newsIDArr: [],
+  newsIDArr: [1],
 });
 
-describe('Component: Main', () => {
+const mockId = 1;
+const cb = jest.fn();
+
+describe('Component: CommentItem', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Main/>
+          <CommentItem
+            id={mockId}
+            defaultShowKidsStatus={true}
+            isUpdateButtonClick={true}
+            onSetIsUpdateButtonClick={cb}
+          />
         </BrowserRouter>
       </Provider>
     );
 
-    expect(screen.getByText(/Hacker news/i)).toBeInTheDocument();
+    expect(screen.getByTestId('comment-item')).toBeInTheDocument();
   });
 });

@@ -1,15 +1,13 @@
-import { List, Button, Header, Container, Segment } from 'semantic-ui-react';
+import { Button, Header, Container, Comment } from 'semantic-ui-react';
 import { useState } from 'react';
-import { AxiosInstance } from 'axios';
-import CommentItem from '../comment/comment';
+import CommentItem from '../comment-item/comment-item';
 
 type CommentsProps = {
   kids: number[];
   count: number;
-  api: AxiosInstance;
 };
 
-function Comments({ kids, count, api }: CommentsProps) {
+function Comments({ kids, count }: CommentsProps) {
   const [isUpdateButtonClick, setIsUpdateButtonClick] = useState(false);
 
   const handleUpdateButtonClick = () => {
@@ -17,29 +15,26 @@ function Comments({ kids, count, api }: CommentsProps) {
   };
 
   return (
-    <Container>
+    <Container data-testid="comments">
       <Header as="h2">{`Comments(${count}):`}</Header>
-      <Button onClick={handleUpdateButtonClick} color="brown" inverted>
+      <Button onClick={handleUpdateButtonClick} primary>
         Обновить
       </Button>
-      <Segment inverted color='brown'>
-        <List bulleted>
-          {kids
-            ? kids.map((id) => {
-                return (
-                  <CommentItem
-                    id={id}
-                    key={id}
-                    api={api}
-                    defaultShowKidsStatus={false}
-                    isUpdateButtonClick={isUpdateButtonClick}
-                    onSetIsUpdateButtonClick={setIsUpdateButtonClick}
-                  />
-                );
-              })
-            : 'Комментариев пока нет'}
-        </List>
-      </Segment>
+      <Comment.Group threaded>
+        {kids
+          ? kids.map((id) => {
+              return (
+                <CommentItem
+                  id={id}
+                  key={id}
+                  defaultShowKidsStatus={false}
+                  isUpdateButtonClick={isUpdateButtonClick}
+                  onSetIsUpdateButtonClick={setIsUpdateButtonClick}
+                />
+              );
+            })
+          : 'Комментариев пока нет'}
+      </Comment.Group>
     </Container>
   );
 }

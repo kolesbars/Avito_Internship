@@ -1,4 +1,4 @@
-import Main from './main';
+import NewsItemPage from './news-item-page';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
@@ -19,19 +19,19 @@ const mockStore = configureMockStore<
 
 const store = mockStore({
   isLoaded: false,
-  newsIDArr: [],
+  newsIDArr: [1],
 });
 
-describe('Component: Main', () => {
+describe('Component: NewsItemPage', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Main/>
+          <NewsItemPage/>
         </BrowserRouter>
       </Provider>
     );
 
-    expect(screen.getByText(/Hacker news/i)).toBeInTheDocument();
+    expect(screen.getByTestId('news-item-page')).toBeInTheDocument();
   });
 });

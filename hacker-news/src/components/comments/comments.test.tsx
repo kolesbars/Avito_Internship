@@ -1,4 +1,4 @@
-import Main from './main';
+import Comments from './comments';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
@@ -19,19 +19,22 @@ const mockStore = configureMockStore<
 
 const store = mockStore({
   isLoaded: false,
-  newsIDArr: [],
+  newsIDArr: [1],
 });
 
-describe('Component: Main', () => {
+const mockCount = 1;
+const mockKids = [1, 2, 3, 4, 5];
+
+describe('Component: Comments', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <Main/>
+          <Comments count={mockCount} kids={mockKids} />
         </BrowserRouter>
       </Provider>
     );
 
-    expect(screen.getByText(/Hacker news/i)).toBeInTheDocument();
+    expect(screen.getByTestId('comments')).toBeInTheDocument();
   });
 });

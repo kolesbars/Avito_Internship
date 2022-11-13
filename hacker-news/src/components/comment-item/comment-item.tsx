@@ -1,27 +1,26 @@
 import { CommentType } from '../../types/news';
-import { APIRoute } from '../../const';
+import { APIRoute, DATE_MULTIPLIER } from '../../const';
 import { useState, useEffect } from 'react';
-import { List } from 'semantic-ui-react';
+import { Container, Comment } from 'semantic-ui-react';
+import { api } from '../../services/api';
 import DOMPurify from 'dompurify';
 import NewPlaceholder from '../item-placeholder/item-placeholder';
-import { AxiosInstance } from 'axios';
 
-type CommentProps = {
+type CommentItemProps = {
   id: number;
-  api: AxiosInstance;
   defaultShowKidsStatus: boolean;
   isUpdateButtonClick: boolean;
   onSetIsUpdateButtonClick: (value: boolean) => void;
 };
 
-function Comment({
+function CommentItem({
   id,
-  api,
   defaultShowKidsStatus,
   isUpdateButtonClick,
   onSetIsUpdateButtonClick,
-}: CommentProps) {
+}: CommentItemProps) {
   const [data, setData] = useState<CommentType>();
+  const [date, setDate] = useState<string>();
   const [sanitizedComment, setSanitizedComment] = useState<string>();
   const [isShowKids, setIsShowKids] = useState(defaultShowKidsStatus);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -32,6 +31,7 @@ function Comment({
       setData(resp.data);
       //применил данную библиотеку для страховки от вредоносного кода в тексте комментариев
       setSanitizedComment(DOMPurify.sanitize(resp.data?.text));
+      setDate(new Date(resp.data.time * DATE_MULTIPLIER).toLocaleTimeString());
       setIsLoaded(true);
     });
   };
@@ -53,37 +53,40 @@ function Comment({
   }, [isUpdateButtonClick]);
 
   return (
-    <>
+    <Container data-testid="comment-item">
       {isLoaded ? (
-        <List.Item onClick={handleClick}>
-          <List.Header as="h3">{data?.by}</List.Header>
-          <List.Description
-            as="p"
-            dangerouslySetInnerHTML={{ __html: `${sanitizedComment}` }}
-          ></List.Description>
-          {isShowKids && data?.kids && (
-            <List.List>
-              {data?.kids &&
-                data?.kids.map((id) => {
-                  return (
-                    <Comment
-                      id={id}
-                      key={id}
-                      api={api}
-                      defaultShowKidsStatus={true}
-                      isUpdateButtonClick={isUpdateButtonClick}
-                      onSetIsUpdateButtonClick={onSetIsUpdateButtonClick}
-                    />
-                  );
-                })}
-            </List.List>
-          )}
-        </List.Item>
+        <Comment onClick={handleClick}>
+          <Comment.Content>
+            <Comment.Author>{data?.by}</Comment.Author>
+            <Comment.Metadata>
+              <div>{date}</div>
+            </Comment.Metadata>
+            <Comment.Text
+              dangerouslySetInnerHTML={{ __html: `${sanitizedComment}` }}
+            ></Comment.Text>
+            {isShowKids && data?.kids && (
+              <Comment.Group threaded>
+                {data?.kids &&
+                  data?.kids.map((id) => {
+                    return (
+                      <CommentItem
+                        id={id}
+                        key={id}
+                        defaultShowKidsStatus={false}
+                        isUpdateButtonClick={isUpdateButtonClick}
+                        onSetIsUpdateButtonClick={onSetIsUpdateButtonClick}
+                      />
+                    );
+                  })}
+              </Comment.Group>
+            )}
+          </Comment.Content>
+        </Comment>
       ) : (
         <NewPlaceholder />
       )}
-    </>
+    </Container>
   );
 }
 
-export default Comment;
+export default CommentItem;

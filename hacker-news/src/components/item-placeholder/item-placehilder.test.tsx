@@ -1,15 +1,15 @@
-import PageHeader from './page-header';
+import ItemPlaceholder from './item-placeholder';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
-describe('Component: PageHeader', () => {
+describe('Component: ItemPlaceholder', () => {
   it('should render correctly', () => {
     render(
       <BrowserRouter>
-        <PageHeader />
+        <ItemPlaceholder />
       </BrowserRouter>
     );
 
-    expect(screen.getByText(/Hacker News/i)).toBeInTheDocument();
+    expect(screen.getByTestId('placeholder')).toBeInTheDocument();
   });
 });

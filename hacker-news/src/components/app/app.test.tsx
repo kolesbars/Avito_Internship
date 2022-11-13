@@ -1,14 +1,17 @@
-import Main from './main';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
-import { createAPI } from '../../services/api';
+import { createMemoryHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 import { configureMockStore } from '@jedmao/redux-mock-store';
+import { Provider } from 'react-redux';
+import { AppRoute } from '../../const';
+import { createAPI } from '../../services/api';
+import App from './app';
 import { State } from '../../types/state';
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 
 const api = createAPI();
+
 const middlewares = [thunk.withExtraArgument(api)];
 
 const mockStore = configureMockStore<
@@ -19,18 +22,23 @@ const mockStore = configureMockStore<
 
 const store = mockStore({
   isLoaded: false,
-  newsIDArr: [],
+  newsIDArr: [1],
 });
 
-describe('Component: Main', () => {
-  it('should render correctly', () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <Main/>
-        </BrowserRouter>
-      </Provider>
-    );
+const history = createMemoryHistory();
+
+const fakeApp = (
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
+);
+
+describe('Application Routing', () => {
+  it('should render main screen when user navigate to "/"', () => {
+    history.push(AppRoute.Main);
+    render(fakeApp);
 
     expect(screen.getByText(/Hacker news/i)).toBeInTheDocument();
   });
